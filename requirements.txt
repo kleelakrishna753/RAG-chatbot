@@ -1,11 +1,7 @@
 # requirements.txt
-setuptools>=65.5.0
 streamlit
 langchain
-langchain-community
-sentence-transformers==2.2.2
-huggingface-hub==0.20.3
-torch==2.2.0
-faiss-cpu
-pypdf
+faiss-cpu==1.7.4
+sentence-transformers
+torch
 numpy==1.26.4

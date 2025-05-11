@@ -23,3 +23,4 @@ class MistralQA:
 def get_qa_chain(vectordb):
     retriever = vectordb.as_retriever()
     return MistralQA(retriever)
+

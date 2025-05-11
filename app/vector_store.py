@@ -1,4 +1,6 @@
 # app/vector_store.py
+import numpy
+import numpy as np 
 from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 

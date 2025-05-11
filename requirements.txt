@@ -4,4 +4,5 @@ accelerate
 sentence-transformers
 huggingface_hub
 langchain-community
+pypdf
 

@@ -1,6 +1,7 @@
 # app/vector_store.py
 import numpy
 import numpy as np 
+print("NumPy version in Streamlit Cloud:", np.__version__)
 from sentence_transformers import SentenceTransformer
 from langchain.vectorstores import FAISS
 

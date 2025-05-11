@@ -4,5 +4,5 @@ transformers
 huggingface-hub
 sentence-transformers
 streamlit
-pinecone-client
+pinecone
 pypdf

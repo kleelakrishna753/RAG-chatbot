@@ -8,8 +8,9 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENV")  # e.g., aws-us-west-2
 INDEX_NAME = os.getenv("PINECONE_INDEX", "rag-chat-index")
 
-cloud, region = PINECONE_ENV.split("-")[0], "-".join(PINECONE_ENV.split("-")[1:])
+cloud, region = PINECONE_ENV.split("-", 1)
 pc = PineconeClient(api_key=PINECONE_API_KEY)
+
 
 # Create index if it doesn't exist
 if INDEX_NAME not in pc.list_indexes().names():

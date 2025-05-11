@@ -1,7 +1,5 @@
-# app/vector_store.py
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Pinecone as LangchainPinecone
 from pinecone import Pinecone, ServerlessSpec
+from sentence_transformers import SentenceTransformer
 import os
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
@@ -11,19 +9,30 @@ INDEX_NAME = os.getenv("PINECONE_INDEX", "rag-chat-index")
 cloud, region = PINECONE_ENV.split("-")[0], "-".join(PINECONE_ENV.split("-")[1:])
 pc = Pinecone(api_key=PINECONE_API_KEY)
 
-# Create index if it doesn't exist
 if INDEX_NAME not in pc.list_indexes().names():
     pc.create_index(
-        name='rag-chat-index',
+        name=INDEX_NAME,
         dimension=384,
-        metric='cosine',
-        spec=ServerlessSpec(cloud='aws', region='us-east-1')
+        metric="cosine",
+        spec=ServerlessSpec(cloud=cloud, region=region)
     )
 
 index = pc.Index(INDEX_NAME)
+embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
 def create_vector_store(documents):
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-    LangchainPinecone.from_documents(documents, embeddings, index_name=INDEX_NAME)
-    return LangchainPinecone(index, embeddings.embed_query, "text")
+    texts = [doc.page_content for doc in documents]
+    embeddings = embedder.encode(texts).tolist()
+
+    # Clear index for simplicity
+    index.delete(delete_all=True)
+
+    vectors = [{"id": f"doc-{i}", "values": emb, "metadata": {"text": text}} for i, (emb, text) in enumerate(zip(embeddings, texts))]
+    index.upsert(vectors=vectors)
+    return index
+
+def query_vector_store(index, query_text, top_k=3):
+    query_embedding = embedder.encode([query_text])[0].tolist()
+    results = index.query(vector=query_embedding, top_k=top_k, include_metadata=True)
+    return [match['metadata']['text'] for match in results['matches']]
 

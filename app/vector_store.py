@@ -15,7 +15,13 @@ if INDEX_NAME not in pc.list_indexes().names():
         dimension=384,
         metric="cosine",
         spec=ServerlessSpec(cloud=cloud, region=region)
-    )
+    )else:
+    # Index exists, safely delete vectors if needed
+    index = pc.Index(INDEX_NAME)
+    try:
+        index.delete(delete_all=True)
+    except Exception as e:
+        print(f"Error deleting vectors: {e}")
 
 index = pc.Index(INDEX_NAME)
 embedder = SentenceTransformer("all-MiniLM-L6-v2")

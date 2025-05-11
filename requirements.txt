@@ -8,3 +8,4 @@ huggingface-hub==0.20.3
 torch==2.2.0
 faiss-cpu
 pypdf
+numpy

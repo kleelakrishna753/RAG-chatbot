@@ -1,0 +1,11 @@
+# requirements.txt
+langchain
+openai
+tiktoken
+chromadb
+streamlit
+faiss-cpu
+pypdf
+python-dotenv
+transformers
+sentence-transformers

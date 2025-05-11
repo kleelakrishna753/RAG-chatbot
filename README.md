@@ -1,5 +1,3 @@
-Here's a comprehensive and professional README for your Retrieval-Augmented Generation (RAG) Chatbot project:
-
 ---
 
 # 📄 RAG-based Document Chatbot
@@ -121,12 +119,6 @@ You can fine-tune the model with custom Q\&A pairs based on your documents.
    ```
 
 2. **Train the Model**: Use the generated `fine_tune_dataset.jsonl` with Hugging Face or OpenAI tools to fine-tune the model on your dataset.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 

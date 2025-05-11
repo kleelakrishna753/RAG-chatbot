@@ -6,3 +6,5 @@ huggingface_hub
 langchain-community
 pypdf
 chromadb
+sqlite3
+libsqlite3-dev

@@ -1,4 +1,5 @@
 langchain
+langchain-community
 transformers
 huggingface-hub
 sentence-transformers

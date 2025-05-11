@@ -15,7 +15,8 @@ if INDEX_NAME not in pc.list_indexes().names():
         dimension=384,
         metric="cosine",
         spec=ServerlessSpec(cloud=cloud, region=region)
-    )else:
+    )
+else:
     # Index exists, safely delete vectors if needed
     index = pc.Index(INDEX_NAME)
     try:

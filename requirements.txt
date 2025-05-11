@@ -1,10 +1,7 @@
-# requirements.txt
+langchain
 transformers
-accelerate
+huggingface-hub
 sentence-transformers
-huggingface_hub
-langchain-community
+streamlit
+pinecone-client
 pypdf
-chromadb
-sqlite3
-libsqlite3-dev

@@ -1,10 +1,10 @@
 # ui/app.py
-
 import streamlit as st
 from app.loader import load_and_split
 from app.vector_store import create_vector_store
 from app.rag_chain import get_qa_chain
 import tempfile
+import os
 
 st.set_page_config(page_title="📄 Chat with your Document")
 st.title("📄 Chat with your Document")
@@ -27,4 +27,3 @@ if uploaded_file is not None:
         with st.spinner("Thinking..."):
             result = qa_chain.run(user_query)
             st.markdown(f"**Answer:** {result}")
-

@@ -1,26 +1,25 @@
 # app/rag_chain.py
-from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-from langchain.chains import RetrievalQA
-from langchain.llms import HuggingFacePipeline
+from transformers import pipeline
+from huggingface_hub import login
+import os
 
-def get_qa_chain(retriever):
-    model_name = "mistralai/Mistral-7B-Instruct-v0.2"
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto")
+# Automatically login using HF token from environment
+hf_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+if hf_token:
+    login(token=hf_token)
 
-    pipe = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        max_new_tokens=512,
-        do_sample=True,
-        top_k=50,
-        top_p=0.95,
-        temperature=0.7,
-    )
+class MistralQA:
+    def __init__(self, retriever):
+        self.retriever = retriever
+        self.pipe = pipeline("text-generation", model="mistralai/Mistral-7B-v0.1")
 
-    llm = HuggingFacePipeline(pipeline=pipe)
+    def run(self, query):
+        context_docs = self.retriever.get_relevant_documents(query)
+        context = "\n".join([doc.page_content for doc in context_docs])
+        prompt = f"Context:\n{context}\n\nQuestion: {query}\nAnswer:"
+        result = self.pipe(prompt, max_new_tokens=256, do_sample=True)[0]['generated_text']
+        return result[len(prompt):].strip()
 
-    qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
-    return qa_chain
-
+def get_qa_chain(vectordb):
+    retriever = vectordb.as_retriever()
+    return MistralQA(retriever)

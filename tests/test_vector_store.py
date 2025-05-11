@@ -1,4 +1,3 @@
-
 # tests/test_vector_store.py
 def test_vector_store_creation():
     from app.loader import load_and_split
@@ -11,7 +10,6 @@ def test_vector_store_creation():
         return
 
     docs = load_and_split(test_pdf_path)
-    vectordb = create_vector_store(docs, persist_directory="test_db")
+    vectordb = create_vector_store(docs)
     assert vectordb is not None
     print("Vector store created successfully.")
-

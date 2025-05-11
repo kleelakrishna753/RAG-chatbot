@@ -1,6 +1,7 @@
----
 
 # 📄 RAG-based Document Chatbot
+
+---
 
 This is a **Retrieval-Augmented Generation (RAG)** chatbot that allows users to interact with their uploaded documents by asking questions and getting intelligent answers. The project utilizes **Mistral 7B**, **HuggingFace**, and **PineconeDB** to provide contextually relevant responses based on the document content. The app is built with **Streamlit** for an easy-to-use web interface.
 

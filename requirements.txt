@@ -1,7 +1,6 @@
 # requirements.txt
-streamlit
-langchain
-faiss-cpu==1.7.4
+transformers
+accelerate
 sentence-transformers
-torch
-numpy==1.26.4
+huggingface_hub
+

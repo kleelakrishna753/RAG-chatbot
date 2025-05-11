@@ -1,19 +1,15 @@
 # app/vector_store.py
 from sentence_transformers import SentenceTransformer
-from langchain.vectorstores import Chroma
-from langchain.embeddings import Embedding
+from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
-# Use SentenceTransformer model from Hugging Face or other available models
-class SentenceTransformerEmbeddings(Embedding):
-    def __init__(self, model_name="all-MiniLM-L6-v2"):
-        self.model = SentenceTransformer(model_name)
+# Set up the sentence transformer model
+def create_vector_store(documents, persist_directory="db"):
+    model_name = "all-MiniLM-L6-v2"  # lightweight, fast, and free
+    embeddings = HuggingFaceEmbeddings(model_name=model_name)
     
-    def embed_documents(self, texts):
-        return self.model.encode(texts, show_progress_bar=True, convert_to_tensor=True).tolist()
+    vectordb = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory)
+    vectordb.persist()
+    return vectordb
 
-# Initialize SentenceTransformer Embedding
-embeddings = SentenceTransformerEmbeddings()
-
-# Use Chroma as vector store
-vectordb = Chroma.from_documents(docs, embeddings, persist_directory=persist_directory)
 

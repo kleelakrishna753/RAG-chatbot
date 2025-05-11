@@ -1,7 +1,5 @@
 # requirements.txt
 setuptools>=65.5.0
-build-essential
-python3-dev
 streamlit
 langchain
 langchain-community
